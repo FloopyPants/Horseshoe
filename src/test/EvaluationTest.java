@@ -8,9 +8,10 @@ public class EvaluationTest {
 
         hs.Initialize();
 
-        Object result = hs.Evaluate("{test}");
-        Object result2 = hs.Evaluate("{test2}");
+        // this prints 69...
+        
+        Object result = hs.Evaluate("2 + 67");
 
-        System.out.println(result + " " + result2);
+        System.out.println(result);
     }
 }
