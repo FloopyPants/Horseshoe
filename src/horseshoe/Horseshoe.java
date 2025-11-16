@@ -4,12 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Horseshoe {
+    public interface JavaFunction {
+        Object call(Object... args);
+    }
+
     private final Map<String, Object> variables = new HashMap<>();
+    private final Map<String, JavaFunction> javafunctions = new HashMap<>();
 
     public void Initialize() {
         // initialize some variables..
 
         variables.put("test", "\"HELLO WORLD\"");
+    }
+
+    public void PushVariable(String name, Object value) {
+        if (value != null) {
+            variables.put(name, value);
+        }
+    }
+
+    public void PushJavaFunction(String name, JavaFunction jf) {
+        if (jf != null) {
+            javafunctions.put(name, jf);
+        }
     }
 
     public Object Evaluate(String expr) {
@@ -18,8 +35,7 @@ public class Horseshoe {
         if (expr.matches("-?(\\d*\\.\\d+|\\d+)")) {
             if (expr.contains(".")) {
                 return Double.parseDouble(expr);
-            }
-            else {
+            } else {
                 return Integer.parseInt(expr);
             }
         }
@@ -38,15 +54,18 @@ public class Horseshoe {
                 } else if (value instanceof String i && i.matches("-?(\\d*\\.\\d+|\\d+)")) {
                     if (expr.contains(".")) {
                         return Double.parseDouble(expr);
-                    }
-                    else {
+                    } else {
                         return Integer.parseInt(expr);
                     }
                 }
                 return value;
             }
         }
-        
+
+        if (expr.matches("[A-Za-z_]")) {
+
+        }
+
         if (expr.contains("+")) {
             String[] parts = expr.split("\\+");
             Object left = Evaluate(parts[0]);
@@ -64,10 +83,15 @@ public class Horseshoe {
             return ((Number) left).doubleValue() - ((Number) right).doubleValue();
         }
 
-        if (expr.contains("nil")) {
+        if (expr.equals("nil"))
             return "nil";
-        }
 
         throw new Error("Unknown expression - " + expr);
+    }
+    
+    public void Execute(String[] str) {
+        for (String line : str) {
+            line = line.trim();
+        }
     }
 }
