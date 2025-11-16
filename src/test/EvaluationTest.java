@@ -8,8 +8,7 @@ public class EvaluationTest {
 
         hs.Initialize();
 
-        Object result = hs.Evaluate("{test} + \"...DON'T YOU PEOPLE REALIZE YOU ARE IN A SIMULATION?!?\"");
-
-        System.out.println(result);
+        hs.Execute(new String[] {
+        });
     }
 }
